@@ -69,12 +69,14 @@
                 axios.get(url, {params: {}}).then(function (response) {
                     _this.$store.dispatch('modifyReplies', response.data);
                 }).catch(function (error) {
-                    _this.$notify({
-                        type: 'error',
-                        title: error.response.statusText,
-                        message: '不妙，操作失败了，请等下再试哦~',
-                        duration: 0
-                    })
+                    if (error.response.status === 401) {
+                        _this.$notify({
+                            type: 'warning',
+                            title: error.response.statusText,
+                            message: '您需要登录 后才能评论哦～',
+                            duration: 0
+                        })
+                    }
                 })
             },
             remove: function (id) {
